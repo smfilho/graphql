@@ -12,7 +12,11 @@ const typeDefs = gql`
 
   type Query {
     users: [User!]!
-    friends: [User]
+    #creating query to retrieve info of one single user. Arguments!
+    user(id: ID!): User!
+
+    # First time creating a query, worked!
+    #friends: [User]
   }
 
   enum Nationality {
