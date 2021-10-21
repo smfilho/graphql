@@ -33,6 +33,12 @@ const resolvers = {
       return _.filter(MovieList, (movie) => movie.yearOfPublication >= 2010 && movie.yearOfPublication <= 2020)
     }
   },
+  Mutation: {
+    createUser: (parent,args) => {
+      const user = args.input
+      console.log(user)
+    }
+  }
 };
 
 module.exports = { resolvers };

@@ -29,6 +29,17 @@ const typeDefs = gql`
     #friends: [User]
   }
 
+  input CreateUserInput {
+    name: String!
+    username: String!
+    age: Int!
+    nationality: Nationality = USA
+  }
+  
+  type Mutation {
+    createUser(input: CreateUserInput!): User!
+  }
+
   enum Nationality {
     CANADA
     BRAZIL
