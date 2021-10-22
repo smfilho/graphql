@@ -1,6 +1,6 @@
-const { UserList, MovieList } = require("../FakeData");
+const { UserList, MovieList } = require('../FakeData');
 // not using DB, using lodash instead to query FakeData
-const _ = require("lodash");
+const _ = require('lodash');
 
 const resolvers = {
   Query: {
@@ -9,7 +9,7 @@ const resolvers = {
       return UserList;
     },
     user: (parent, args) => {
-      const id = args.id;             //{id: id}
+      const id = args.id; //{id: id}
       const user = _.find(UserList, { id: Number(id) });
       return user;
       // fetch data from an API here! Fetch or Axios maybe?
@@ -30,15 +30,34 @@ const resolvers = {
   },
   User: {
     favoriteMovies: () => {
-      return _.filter(MovieList, (movie) => movie.yearOfPublication >= 2010 && movie.yearOfPublication <= 2020)
-    }
+      return _.filter(
+        MovieList,
+        movie =>
+          movie.yearOfPublication >= 2010 && movie.yearOfPublication <= 2020
+      );
+    },
   },
   Mutation: {
-    createUser: (parent,args) => {
-      const user = args.input
-      console.log(user)
-    }
-  }
+    createUser: (parent, args) => {
+      const user = args.input;
+      // Adding user after the last one on FakeData.js
+      const lastId = UserList[UserList.length - 1].id;
+      user.id = lastId + 1;
+      UserList.push(user);
+      return user;
+    },
+    updateUsername: (parent, args) => {
+      const { id, newUsername } = args.input;
+      let userUpdated;
+      UserList.forEach(user => {
+        if (user.id === Number(id)) {
+          user.username = newUsername;
+          userUpdated = user;
+        }
+      });
+      return userUpdated;
+    },
+  },
 };
 
 module.exports = { resolvers };
